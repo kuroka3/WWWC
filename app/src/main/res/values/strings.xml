@@ -8,6 +8,6 @@
     <string name="use_yellow">결정 용제 사용하기</string>
     <string name="init">init</string>
     <string name="count_waveplate">결정 플레이트 갯수</string>
-    <string name="next_charge_time">다음 충전 시간 (mm:ss)</string>
+    <string name="next_charge_time">다음 충전 시간 (m:ss)</string>
     <string name="confirm">설정하기</string>
 </resources>

@@ -33,7 +33,7 @@ class InitActivity : AppCompatActivity() {
             }
 
             if (!isValidTimeFormat(nextChargeEdit.text.toString())) {
-                Toast.makeText(applicationContext, "Invalid Time Format (mm:ss)", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Invalid Time Format (m:ss)", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -46,11 +46,11 @@ class InitActivity : AppCompatActivity() {
         val parts = time.split(":")
         val minutes = parts[0].toLong()
         val seconds = parts[1].toLong()
-        return (minutes * 60 + seconds) * 1000
+        return WaveplateManager.CHARGE_TIME - ((minutes * 60 + seconds) * 1000)
     }
 
     private fun isValidTimeFormat(time: String): Boolean {
-        val regex = Regex("^([0-5][0-9]):([0-5][0-9]\$)")
+        val regex = Regex("^([0-6]):([0-5][0-9]\$)")
         return regex.matches(time)
     }
 }
