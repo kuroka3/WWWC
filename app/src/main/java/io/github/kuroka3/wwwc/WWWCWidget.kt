@@ -30,7 +30,7 @@ class WWWCWidget : AppWidgetProvider() {
         val action = intent.action ?: ""
 
         if (action == "refresh") {
-            WaveplateManager.init(dataDir = context.cacheDir)
+            WaveplateManager.init(dataDir = context.dataDir)
             WaveplateManager.load()
             updateWidgets(context)
         }
