@@ -61,6 +61,18 @@ class WWWCWidget : AppWidgetProvider() {
         return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
     }
 
+    companion object {
+        private val backgrounds = listOf(
+            R.drawable.background_1,
+            R.drawable.background_2,
+            R.drawable.background_3,
+            R.drawable.background_4,
+            R.drawable.background_5,
+            R.drawable.background_6,
+            R.drawable.background_7
+        )
+    }
+
     internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         WaveplateManager.load()
 
@@ -68,17 +80,18 @@ class WWWCWidget : AppWidgetProvider() {
         val views = RemoteViews(context.packageName, R.layout.w_w_w_c_widget)
 
         // Drawable을 Bitmap으로 변환
-        val drawable = ResourcesCompat.getDrawable(context.resources, R.drawable.background, null)
+        val drawable = ResourcesCompat.getDrawable(context.resources, backgrounds.random(), null)
         drawable?.let {
             // Drawable을 Bitmap으로 변환
             val bitmap = drawableToBitmap(it)
 
             // Bitmap을 어둡게 변환
-            val darkenedBitmap = darkenBitmap(bitmap)
+            val darkenedBitmap = darkenBitmap(bitmap, 25)
 
             // 어둡게 변환된 Bitmap을 ImageView에 설정
             views.setImageViewBitmap(R.id.widget_background, darkenedBitmap)
         }
+//        views.setImageViewResource(R.id.widget_background, backgrounds.random())
         views.setTextViewText(R.id.widget_plateview, "${WaveplateManager.waveplate}/240")
         views.setTextViewText(R.id.widget_leftwholeview, WaveplateManager.leftWholeChargeTime.toTimeStringhhmm())
         views.setImageViewResource(R.id.plate_img, R.drawable.waveplate)
@@ -104,11 +117,11 @@ class WWWCWidget : AppWidgetProvider() {
     }
 
     // Bitmap을 어둡게 만드는 메서드
-    private fun darkenBitmap(original: Bitmap): Bitmap {
+    private fun darkenBitmap(original: Bitmap, value: Int): Bitmap {
         val darkBitmap = Bitmap.createBitmap(original.width, original.height, original.config)
         val canvas = Canvas(darkBitmap)
         val paint = Paint()
-        paint.colorFilter = PorterDuffColorFilter(Color.argb(100, 0, 0, 0), PorterDuff.Mode.SRC_OVER)
+        paint.colorFilter = PorterDuffColorFilter(Color.argb(value, 0, 0, 0), PorterDuff.Mode.SRC_OVER)
         canvas.drawBitmap(original, 0f, 0f, paint)
         return darkBitmap
     }
